@@ -19,7 +19,7 @@ public class ErroDeValidacaoHandler {
 	@Autowired
 	private MessageSource messageSource;
 	
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public List<ErroDeFormularioDto> handle(MethodArgumentNotValidException execption) {
 		

@@ -4,13 +4,15 @@ import java.math.BigDecimal;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-
 import br.com.zupacademy.lucaslacerda.proposta.validacao.CPFOrCNPJ;
+import br.com.zupacademy.lucaslacerda.proposta.validacao.RegistroUnicoValid;
 
 public class PropostaForm {
 
 	@NotBlank
 	@CPFOrCNPJ
+	@RegistroUnicoValid(message="Documento informado ja possui uma proposta",
+						entidade = Proposta.class,atributo = "documento")
 	private String documento;
 	
 	@Email @NotBlank
