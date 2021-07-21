@@ -101,7 +101,7 @@ public class Proposta {
 		this.estadoProposta = 
 				restricaoAnalise==RestricaoAnalise.COM_RESTRICAO?
 						estadoProposta.NAO_ELEGIVEL:estadoProposta.ELEGIVEL;
-		manager.persist(this);
+		manager.merge(this);
 
 	}
 	
