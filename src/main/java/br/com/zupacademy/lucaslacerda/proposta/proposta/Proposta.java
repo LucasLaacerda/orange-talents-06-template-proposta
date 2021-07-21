@@ -4,12 +4,20 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+
+import br.com.zupacademy.lucaslacerda.proposta.analise.RestricaoAnalise;
+import br.com.zupacademy.lucaslacerda.proposta.analise.ResultadoSolicitacaoAnalise;
+import br.com.zupacademy.lucaslacerda.proposta.analise.SolicitacaoAnaliseClient;
+import br.com.zupacademy.lucaslacerda.proposta.analise.SolicitacaoAnaliseForm;
 
 @Entity
 public class Proposta {
@@ -38,19 +46,28 @@ public class Proposta {
 	@Column(nullable=false)
 	private BigDecimal salario;
 
+	@Enumerated
+	@Column(nullable=false)
+	private EstadoProposta estadoProposta;
+	
 	public Proposta() {
 		
 	}
 	
+	
+
 	public Proposta(@NotBlank String documento, @Email @NotBlank String email, @NotBlank String nome,
-			@NotBlank String endereco, @Positive BigDecimal salario) {
+			@NotBlank String endereco, @Positive BigDecimal salario, EstadoProposta estadoProposta) {
 		super();
 		this.documento = documento;
 		this.email = email;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
+		this.estadoProposta = estadoProposta;
 	}
+
+
 
 	public String getDocumento() {
 		return documento;
@@ -76,4 +93,21 @@ public class Proposta {
 		return id;
 	}
 
+	public EstadoProposta getEstadoProposta() {
+		return estadoProposta;
+	}
+	
+	public void atualizaEstado(RestricaoAnalise restricaoAnalise, EntityManager manager) {
+		this.estadoProposta = 
+				restricaoAnalise==RestricaoAnalise.COM_RESTRICAO?
+						estadoProposta.NAO_ELEGIVEL:estadoProposta.ELEGIVEL;
+		manager.persist(this);
+
+	}
+	
+	public ResultadoSolicitacaoAnalise executaAnalise(SolicitacaoAnaliseClient encaminhaSolicitacaoAnalise) {
+		return encaminhaSolicitacaoAnalise.
+				enviaSolicitacaoAnalise(new SolicitacaoAnaliseForm(this));
+	}
+	
 }

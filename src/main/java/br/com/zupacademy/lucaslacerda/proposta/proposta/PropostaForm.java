@@ -62,8 +62,8 @@ public class PropostaForm {
 	}
 	
 	
-	public Proposta toModel() {
-		return new Proposta(documento, email, nome, endereco, salario);
+	public Proposta toModel(EstadoProposta estadoProposta) {
+		return new Proposta(documento, email, nome, endereco, salario,estadoProposta);
 	}
 	
 	
