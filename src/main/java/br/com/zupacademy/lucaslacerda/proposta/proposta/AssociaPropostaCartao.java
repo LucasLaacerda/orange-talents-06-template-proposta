@@ -22,7 +22,7 @@ public class AssociaPropostaCartao {
 	
     private final Logger logger = LoggerFactory.getLogger(AssociaPropostaCartao.class);
 
-	@Scheduled(fixedRate = 10000)
+	@Scheduled(fixedRate = 100000)
 	public void RealizaAssociaoCartaoComProposta()  throws Exception {
 		
 		Iterable<Proposta> propostasElegiveis = 

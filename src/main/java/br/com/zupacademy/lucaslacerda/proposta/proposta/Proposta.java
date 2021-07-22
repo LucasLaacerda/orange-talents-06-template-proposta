@@ -105,11 +105,11 @@ public class Proposta {
 		return estadoProposta;
 	}
 	
-	public void atualizaEstado(RestricaoAnalise restricaoAnalise, EntityManager manager) {
+	public void atualizaEstado(RestricaoAnalise restricaoAnalise, PropostaRepository propostaRepository) {
 		this.estadoProposta = 
 				restricaoAnalise==RestricaoAnalise.COM_RESTRICAO?
 						estadoProposta.NAO_ELEGIVEL:estadoProposta.ELEGIVEL;
-		manager.merge(this);
+		propostaRepository.save(this);
 
 	}
 	public void associaCartao(String cartao) {
