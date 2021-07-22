@@ -50,6 +50,8 @@ public class Proposta {
 	@Column(nullable=false)
 	private EstadoProposta estadoProposta;
 	
+	private String cartao;
+	
 	public Proposta() {
 		
 	}
@@ -93,6 +95,12 @@ public class Proposta {
 		return id;
 	}
 
+	public String getCartao() {
+		return cartao;
+	}
+
+
+
 	public EstadoProposta getEstadoProposta() {
 		return estadoProposta;
 	}
@@ -104,10 +112,14 @@ public class Proposta {
 		manager.merge(this);
 
 	}
+	public void associaCartao(String cartao) {
+		this.cartao = cartao;
+	}
 	
 	public ResultadoSolicitacaoAnalise executaAnalise(SolicitacaoAnaliseClient encaminhaSolicitacaoAnalise) {
-		return encaminhaSolicitacaoAnalise.
+		ResultadoSolicitacaoAnalise retornoAnalise = encaminhaSolicitacaoAnalise.
 				enviaSolicitacaoAnalise(new SolicitacaoAnaliseForm(this));
+		return retornoAnalise;
 	}
 	
 }
