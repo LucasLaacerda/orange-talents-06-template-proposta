@@ -33,7 +33,8 @@ public class AssociaPropostaCartao {
 				
 			ResultadoAnaliseCartao result = 
 					analiseCartao.buscaAnaliseCartao(proposta.getId().toString());
-			proposta.associaCartao(result.getId());
+			proposta.associaCartao(result.toModel());
+			
 			propostaRepository.save(proposta);
 			logger.info("Cartao associado com proposta.");
 

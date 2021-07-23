@@ -18,5 +18,9 @@ public class ResultadoAnaliseCartao {
 	public String getId() {
 		return id;
 	}
+	
+	public Cartao toModel() {
+		return new Cartao(this.id);
+	}
 		
 }

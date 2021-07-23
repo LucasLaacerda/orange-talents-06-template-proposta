@@ -2,14 +2,14 @@ package br.com.zupacademy.lucaslacerda.proposta.proposta;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -18,6 +18,7 @@ import br.com.zupacademy.lucaslacerda.proposta.analise.RestricaoAnalise;
 import br.com.zupacademy.lucaslacerda.proposta.analise.ResultadoSolicitacaoAnalise;
 import br.com.zupacademy.lucaslacerda.proposta.analise.SolicitacaoAnaliseClient;
 import br.com.zupacademy.lucaslacerda.proposta.analise.SolicitacaoAnaliseForm;
+import br.com.zupacademy.lucaslacerda.proposta.cartao.Cartao;
 
 @Entity
 public class Proposta {
@@ -50,7 +51,8 @@ public class Proposta {
 	@Column(nullable=false)
 	private EstadoProposta estadoProposta;
 	
-	private String cartao;
+	@OneToOne(cascade = CascadeType.MERGE)
+	private Cartao cartao;
 	
 	public Proposta() {
 		
@@ -95,7 +97,7 @@ public class Proposta {
 		return id;
 	}
 
-	public String getCartao() {
+	public Cartao getCartao() {
 		return cartao;
 	}
 
@@ -108,11 +110,11 @@ public class Proposta {
 	public void atualizaEstado(RestricaoAnalise restricaoAnalise, PropostaRepository propostaRepository) {
 		this.estadoProposta = 
 				restricaoAnalise==RestricaoAnalise.COM_RESTRICAO?
-						estadoProposta.NAO_ELEGIVEL:estadoProposta.ELEGIVEL;
+						EstadoProposta.NAO_ELEGIVEL:EstadoProposta.ELEGIVEL;
 		propostaRepository.save(this);
 
 	}
-	public void associaCartao(String cartao) {
+	public void associaCartao(Cartao cartao) {
 		this.cartao = cartao;
 	}
 	
