@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,31 +22,21 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	
 	
 	
-	@Override
-	@Bean
-	protected AuthenticationManager authenticationManager() throws Exception {
-		return super.authenticationManager();
-	}
-	
-	//Configuracoes de autenticacao
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-	}
-	
 	//Configuracoes de autorizacao url e ets
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 			
 	
-		http.authorizeRequests()
-		.antMatchers(HttpMethod.POST,"/proposta/**").permitAll()
-		.antMatchers(HttpMethod.GET,"/actuator/**").permitAll()
-		.antMatchers(HttpMethod.GET,"/proposta/**").permitAll()
-		.antMatchers(HttpMethod.POST,"/cartao/**").permitAll()
-		//.antMatchers(HttpMethod.DELETE,"/topicos/*").access("hasRole('MODERADOR') and hasRole('ALUNO')") 
+		http.authorizeRequests(authorizeRequests ->
+        authorizeRequests
+		.antMatchers(HttpMethod.POST,"/proposta/**").hasAuthority("SCOPE_propostas:write")
+		.antMatchers(HttpMethod.GET,"/actuator/**").hasAuthority("SCOPE_actuator:read")
+		.antMatchers(HttpMethod.POST,"/cartao/**").hasAuthority("SCOPE_cartao:write")
+		.antMatchers(HttpMethod.GET,"/proposta/**").hasAuthority("SCOPE_propostas:read")
 		.anyRequest().authenticated()
-		.and().csrf().disable();
+		 
+		).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+		//.and().csrf().disable();
 	}
 	
 	//Configuracoes de recursos estaticos(js,css,imagens,etc.)
