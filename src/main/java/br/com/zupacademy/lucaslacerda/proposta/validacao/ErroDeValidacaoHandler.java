@@ -20,8 +20,14 @@ public class ErroDeValidacaoHandler {
 	private MessageSource messageSource;
 	
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+	@ExceptionHandler(UnprocessableEntityException.class)
+	public ErroDeFormularioDto handle(MethodArgumentNotValidException execption) {
+		return new ErroDeFormularioDto(execption.getMessage()+"Teste Lucas");
+	}
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public List<ErroDeFormularioDto> handle(MethodArgumentNotValidException execption) {
+	public List<ErroDeFormularioDto> handleArgumentNotValid(MethodArgumentNotValidException execption) {
 		
 		List<ErroDeFormularioDto> dto = new ArrayList<>();
 		
