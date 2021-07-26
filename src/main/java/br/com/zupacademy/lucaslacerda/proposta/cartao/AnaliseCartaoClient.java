@@ -5,10 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(value = "cartao", url = "http://localhost:8888/")
+@FeignClient(value = "cartoes", url = "${api-contas.host}")
 public interface AnaliseCartaoClient {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/api/cartoes", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.GET,consumes = "application/json")
     ResultadoAnaliseCartao buscaAnaliseCartao(@RequestParam(required = true,name = "idProposta") String idProposta);
 	
+    
 }

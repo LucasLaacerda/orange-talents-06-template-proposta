@@ -23,7 +23,7 @@ import javassist.tools.rmi.ObjectNotFoundException;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/proposta")
+@RequestMapping("/propostas")
 public class PropostaController {
 
 	@Autowired

@@ -19,7 +19,7 @@ import br.com.zupacademy.lucaslacerda.proposta.cartao.CartaoRepository;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/cartao/{idCartao}/biometria")
+@RequestMapping("/cartoes/{idCartao}/biometrias")
 public class BiometriaController {
 
 	@Autowired
