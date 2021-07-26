@@ -1,6 +1,7 @@
 package br.com.zupacademy.lucaslacerda.proposta.cartao.bloqueio;
 
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zupacademy.lucaslacerda.proposta.cartao.Cartao;
 import br.com.zupacademy.lucaslacerda.proposta.cartao.CartaoRepository;
+import feign.FeignException;
 
 @RestController
 @RequestMapping("/cartoes")
@@ -52,7 +54,12 @@ public class BloqueioCartaoController {
 	  cartao.verificaBloqueio(retornaIpClient(request),
 			  				  request.getHeader("USER-AGENT"));
 	  
-	  bloqueioCartaoClient.bloqueiaCartao(cartao.getNumero(),Map.of("sistemaResponsavel", "desafioproposta"));
+	  bloqueioCartaoClient.
+				 bloqueiaCartao(cartao.getNumero(),
+						 Map.of("sistemaResponsavel", "desafioproposta"));
+		
+	
+	 
 	  manager.merge(cartao);
 		
 	  return ResponseEntity.ok().build();

@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zupacademy.lucaslacerda.proposta.biometria.Biometria;
 import br.com.zupacademy.lucaslacerda.proposta.cartao.bloqueio.Bloqueio;
+import br.com.zupacademy.lucaslacerda.proposta.proposta.EstadoProposta;
 import br.com.zupacademy.lucaslacerda.proposta.proposta.Proposta;
 
 @Entity
@@ -40,18 +42,27 @@ public class Cartao {
 	@OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE)
 	private Set<Bloqueio> bloqueio = new HashSet<Bloqueio>();
 	
+	@Enumerated
+	@Column(nullable=false)
+	private EstadoCartao estadoCartao = EstadoCartao.DESBLOQUEADO;
 	
 	@Deprecated
 	public Cartao() {
 		
 	}
 	
-	public Cartao(@NotNull String numero, Proposta proprosta, Set<Biometria> biometria) {
+	
+
+	public Cartao(@NotNull String numero, Proposta proprosta, Set<Biometria> biometria, Set<Bloqueio> bloqueio,
+			EstadoCartao estadoCartao) {
 		super();
 		this.numero = numero;
 		this.proprosta = proprosta;
 		this.biometria = biometria;
+		this.bloqueio = bloqueio;
+		this.estadoCartao = estadoCartao;
 	}
+
 
 
 	public Cartao(String numero) {
@@ -79,12 +90,14 @@ public class Cartao {
 	}
 
 	
+	
 	public void verificaBloqueio(String ip, String userAgent) {
 		
 		if(ip!=null && ip.length()>0 &&
 				userAgent!=null && userAgent.length()>0 &&
 				bloqueado()) {
-				
+					
+					this.estadoCartao = EstadoCartao.BLOQUEADO;
 					this.bloqueio.add(new Bloqueio(this, ip, userAgent));
 				
 		}else if(!bloqueado())
