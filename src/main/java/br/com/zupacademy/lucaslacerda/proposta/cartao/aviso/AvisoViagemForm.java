@@ -13,36 +13,35 @@ import br.com.zupacademy.lucaslacerda.proposta.cartao.Cartao;
 public class AvisoViagemForm {
 
 	@NotBlank
-	private String destinoViagem;
+	private String destino;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Future(message = "A data do termino da viagem deve ser futura.")
 	@NotNull
-	private LocalDate dataTerminoViagem;
+	private LocalDate validoAte;
 
 	public AvisoViagemForm() {
 		
 	}
 	
-	public AvisoViagemForm(@NotBlank String destinoViagem,
-			@NotBlank @Future(message = "A data do termino da viagem deve ser futura.") LocalDate dataTerminoViagem) {
+	public AvisoViagemForm(@NotBlank String destino,
+			@NotBlank @Future(message = "A data do termino da viagem deve ser futura.") LocalDate validoAte) {
 		super();
-		this.destinoViagem = destinoViagem;
-		this.dataTerminoViagem = dataTerminoViagem;
+		this.destino = destino;
+		this.validoAte = validoAte;
 	}
 
 	public AvisoViagem toModel(Cartao cartao,String ipClient,String userAgent) {
-		return new AvisoViagem(cartao, destinoViagem, dataTerminoViagem, ipClient, userAgent);
+		return new AvisoViagem(cartao, destino, validoAte, ipClient, userAgent);
 	}
 
-	public String getDestinoViagem() {
-		return destinoViagem;
+	public String getDestino() {
+		return destino;
 	}
 
-	public LocalDate getDataTerminoViagem() {
-		return dataTerminoViagem;
+	public LocalDate getValidoAte() {
+		return validoAte;
 	}
-	
-	
+
 	
 }
