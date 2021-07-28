@@ -39,7 +39,7 @@ public class AssociaCarteiraController {
     
 	@PostMapping("/{idCartao}/carteiras")
 	@Transactional
-	public ResponseEntity<?> bloqueiaCartao(@PathVariable(required = true,name = "idCartao") 
+	public ResponseEntity<?> associaCarteira(@PathVariable(required = true,name = "idCartao") 
 								 String idCartao,
 								@RequestBody @Valid AssociaCarteiraForm form,
 								 UriComponentsBuilder uriBuilder){
