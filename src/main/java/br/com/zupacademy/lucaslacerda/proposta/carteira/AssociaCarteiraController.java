@@ -65,12 +65,12 @@ public class AssociaCarteiraController {
 		}
 		
 		
-		CarteiraPaypal carteiraPaypal = form.toModel(cartao,response.getId());		
-		manager.persist(carteiraPaypal);
+		Carteira carteira = form.toModel(cartao,response.getId());		
+		manager.persist(carteira);
 		
 		
 		
-		URI uri = uriBuilder.path("/carteiras/{id}").buildAndExpand(carteiraPaypal.getId()).toUri();
+		URI uri = uriBuilder.path("/carteiras/{id}").buildAndExpand(carteira.getId()).toUri();
 		return ResponseEntity.created(uri).body(uri);	
 	}
 		
