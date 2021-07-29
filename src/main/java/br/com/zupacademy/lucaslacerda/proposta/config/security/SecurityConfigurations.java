@@ -29,10 +29,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	
 		http.authorizeRequests(authorizeRequests ->
         authorizeRequests
+       
 		.antMatchers(HttpMethod.POST,"/propostas/**").hasAuthority("SCOPE_propostas:write")
-		.antMatchers(HttpMethod.GET,"/actuator/**").hasAuthority("SCOPE_actuator:read")
 		.antMatchers(HttpMethod.POST,"/cartoes/**").hasAuthority("SCOPE_cartao:write")
 		.antMatchers(HttpMethod.GET,"/propostas/**").hasAuthority("SCOPE_propostas:read")
+		.antMatchers(HttpMethod.GET,"/actuator/**").permitAll()
+		.antMatchers(HttpMethod.GET,"/actuator/prometheus").permitAll()
 		.anyRequest().authenticated()
 		 
 		).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
