@@ -14,6 +14,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.com.zupacademy.lucaslacerda.proposta.analise.RestricaoAnalise;
 import br.com.zupacademy.lucaslacerda.proposta.analise.ResultadoSolicitacaoAnalise;
 import br.com.zupacademy.lucaslacerda.proposta.analise.SolicitacaoAnaliseClient;
@@ -63,7 +65,7 @@ public class Proposta {
 	public Proposta(@NotBlank String documento, @Email @NotBlank String email, @NotBlank String nome,
 			@NotBlank String endereco, @Positive BigDecimal salario, EstadoProposta estadoProposta) {
 		super();
-		this.documento = documento;
+		this.documento = new BCryptPasswordEncoder().encode(documento);
 		this.email = email;
 		this.nome = nome;
 		this.endereco = endereco;
